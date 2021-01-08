@@ -11,6 +11,6 @@ yarn run build
 echo 'build run'
 
 # uncomment --working to get the example of a working version running (up until the tests are executed)
-node ./scripts/browser-tests.js --working 
+node ./scripts/browser-tests.js #--working 
 
 cd ..;
