@@ -1,0 +1,27 @@
+{
+    "name": "e2e-module",
+    "version": "0.0.1",
+    "description": "example to test docker-compose bug",
+    "engines": {
+      "node": ">=10"
+    },
+    "scripts": {
+      "docker:e2e-test": "docker-compose down -v && docker-compose run e2e"
+    },
+    "dependencies": {
+      "@babel/core": "7.1.0",
+      "@svgr/webpack": "2.4.1",
+      "babel-core": "7.0.0-bridge.0",
+      "css-loader": "1.0.0",
+      "debug": "^4.1.0",
+      "dotenv": "6.0.0",
+      "jest": "24.9.0",
+      "react-app-polyfill": "^0.1.3",
+      "react-dev-utils": "^6.0.4"
+    },
+    "devDependencies": {
+      "react": "^16.3.2",
+      "react-dom": "^16.3.2"
+    }
+  }
+  

@@ -1,0 +1,41 @@
+version: "3"
+
+#The following "services" run yarn commands in 1 or more docker containers
+services:
+  # starts up chrome selenium container
+  selenium-chrome:
+    image: "selenium/standalone-chrome:3.141.59-20200719"
+    ports:
+      - "4444"
+
+  #Runs e2e tests
+  e2e:
+    depends_on:
+      - localserver.info.com
+      - selenium-chrome
+    image: "node:erbium"
+    working_dir: /usr/src/app
+    command: sh ./tasks/e2e.test.sh  
+    volumes:
+    - .:/usr/src/app
+    - overlay-node_modules:/usr/src/app/node_modules
+    environment:
+    - APP_DIR=usr/src/app/e2e-example
+
+  localserver.info.com:
+    image: "node:erbium"
+    working_dir: /usr/src/app/e2e-example
+    command: npx serve -l 80 /usr/src/app/e2e-example/build
+    ports:
+      - "80"
+
+  project:
+    image: "node:erbium"
+    working_dir: /usr/src/app
+    command: ${COMMAND:-/bin/bash} 
+    volumes:
+    - .:/usr/src/app
+
+#we overlay node modules so that it does not interfere with the test app generation (its not needed)
+volumes:
+ overlay-node_modules:

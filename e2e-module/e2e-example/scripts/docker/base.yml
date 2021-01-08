@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  project:
+    build:
+      context: ../../
+    working_dir: /usr/src/app
+    tty: true
+    volumes:
+      - ../../:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    environment:
+      - CI
+      - SELENIUM_PORT=4444
+      - SELENIUM_HOST=selenium-chrome
+      - BASEURL=localserver.info.com
+    command: tail -f /dev/null
+
+  # starts up chrome selenium container -> update if needed here and in development.yml
+  selenium-chrome:
+    image: "selenium/standalone-chrome:3.141.59-20200719"
+    ports:
+      - "4444"
+
+  # Serves Application/SPA/Bundle 
+  localserver.info.com:
+    image: "node:erbium"
+    working_dir: /usr/src/app
+    command: npx serve -l 80 ./build
+    volumes:
+      - ../../:/usr/src/app
+      - uxserver_node_modules:/usr/src/app/node_modules
+    ports:
+      - "80"
+
+volumes:
+  node_modules:
+  uxserver_node_modules:
